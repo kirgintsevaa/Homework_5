@@ -4,7 +4,7 @@ import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -45,7 +45,7 @@ public class MyMainTest {
         WebElement elementMyMenu = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//a[contains(text(), 'Мой профиль')]")));
         action.moveToElement(elementMenu).click(elementMyMenu).build().perform();
 
-        // 4. В разделе "О себе" заполнить все поля "Личные данные" и добавить не менее двух контактов + 5. Нажать сохранить
+        // 4. В разделе "О себе" заполнить все поля "Личные данные" и добавить не менее двух контактов // 5. Нажать сохранить
         driver.findElement(By.id("id_fname")).clear();
         WebElement elementFname = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("id_fname")));
         elementFname.sendKeys("Алёна");
@@ -107,7 +107,7 @@ public class MyMainTest {
         driver.manage().deleteAllCookies();
         driver.get("https://otus.ru");
         // 7. Авторизоваться на сайте
-         loginInOtus();
+        loginInOtus();
         // 8. Войти в личный кабинет
         WebElement element4 = wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(".header3__user-info-name")));
         action.moveToElement(element4);
@@ -121,9 +121,15 @@ public class MyMainTest {
         Assertions.assertEquals("Kirgintseva", driver.findElement(By.id("id_lname_latin")).getAttribute("value"));
         Assertions.assertEquals("Алёна", driver.findElement(By.id("id_blog_name")).getAttribute("value"));
         Assertions.assertEquals("24.12.1992", driver.findElement(By.cssSelector("input[name='date_of_birth']")).getAttribute("value"));
-        //Assertions.assertEquals("Россия", driver.findElement(By.cssSelector("[name='country'] ~ div")).getText());
-        //Assertions.assertEquals("Санкт-Петербург", driver.findElement(By.cssSelector("input[data-title='Город']+div")).getText());
-        //Assertions.assertEquals("Средний (Intermediate)", driver.findElement(By.cssSelector("[name='english_level']+div")).getText());
+        Assertions.assertEquals("Россия", driver.findElement(By.cssSelector("[name='country'] ~ div")).getText());
+        Assertions.assertEquals("Санкт-Петербург", driver.findElement(By.cssSelector("input[data-title='Город']+div")).getText());
+        Assertions.assertEquals("Средний (Intermediate)", driver.findElement(By.cssSelector("[name='english_level']+div")).getText());
+        Assertions.assertEquals("Да", driver.findElement(By.cssSelector("#id_ready_to_relocate_1+span")).getText());
+        Assertions.assertTrue(true, driver.findElement(By.cssSelector("input[value='remote']+span")).getAttribute("checked"));
+        Assertions.assertEquals("Skype", driver.findElement(By.cssSelector("input[name='contact-0-service']+div")).getText());
+        Assertions.assertEquals(skype, driver.findElement(By.cssSelector("input[name='contact-0-value']")).getAttribute("value"));
+        Assertions.assertEquals("Тelegram", driver.findElement(By.cssSelector("input[name='contact-1-service']+div")).getText());
+        Assertions.assertEquals(telegram, driver.findElement(By.cssSelector("input[name='contact-1-value']")).getAttribute("value"));
     }
 
     private void loginInOtus() {
