@@ -3,11 +3,13 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -19,7 +21,15 @@ public class MyMainTest {
     private final String password = "Pomobaf324@quamox.com";
     private final String skype = "alen_alen92";
     private final String telegram = "@kirgintseva";
-    private WebDriver driver;
+    private static WebDriver driver;
+
+    @BeforeAll
+    public static void setUp() {
+        WebDriverManager.chromedriver().setup();
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("---start-fullscreen");
+        driver = new ChromeDriver(options);
+    }
 
     @AfterEach
     public void close() {
@@ -30,9 +40,6 @@ public class MyMainTest {
     @Test
     public void testTask() {
         // 1. Открыть https://otus.ru
-        WebDriverManager.chromedriver().setup();
-        driver = new ChromeDriver();
-        driver.manage().window().maximize();
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         Logger logger = LogManager.getLogger(String.valueOf(MyMainTest.class));
         driver.get("https://otus.ru/");
@@ -95,7 +102,7 @@ public class MyMainTest {
 
         WebElement elementSecondContact = wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("input[name='contact-1-service']+div")));
         action.moveToElement(elementSecondContact).click().perform();
-        WebElement elementSecondContactType = driver.findElement(By.cssSelector("#id_contact-1-id+div>div>div>div>div>div>button[data-value='telegram']"));
+        WebElement elementSecondContactType = driver.findElement(By.cssSelector("[data-num='1'] button:nth-child(7)"));
         elementSecondContactType.click();
         WebElement elementSecondContactValue = wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("input[name='contact-1-value']")));
         elementSecondContactValue.clear();
