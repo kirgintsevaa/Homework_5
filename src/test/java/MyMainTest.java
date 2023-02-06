@@ -24,6 +24,7 @@ public class MyMainTest {
     public static void setUp() {
         WebDriverManager.chromedriver().setup();
     }
+
     @BeforeEach
     public void init() {
         ChromeOptions options = new ChromeOptions();
