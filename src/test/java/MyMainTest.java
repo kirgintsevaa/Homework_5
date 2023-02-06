@@ -1,10 +1,7 @@
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -21,11 +18,14 @@ public class MyMainTest {
     private final String password = "Pomobaf324@quamox.com";
     private final String skype = "alen_alen92";
     private final String telegram = "@kirgintseva";
-    private static WebDriver driver;
+    private WebDriver driver;
 
     @BeforeAll
     public static void setUp() {
         WebDriverManager.chromedriver().setup();
+    }
+    @BeforeEach
+    public void init() {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("---start-fullscreen");
         driver = new ChromeDriver(options);
@@ -77,15 +77,15 @@ public class MyMainTest {
         WebElement elementCurCountry = driver.findElement(By.cssSelector("button[title='Россия']"));
         elementCurCountry.click();
 
-        WebElement elementCity = wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("input[data-title='Город']+div")));
-        action.moveToElement(elementCity).click().perform();
-        WebElement elementCurCity = driver.findElement(By.cssSelector("button.lk-cv-block__select-option[title='Санкт-Петербург']"));
-        elementCurCity.click();
-
         WebElement elementLanguage = wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("[name='english_level']+div")));
         action.moveToElement(elementLanguage).click().perform();
         WebElement elementCurLanguage = driver.findElement(By.cssSelector("button.lk-cv-block__select-option[title='Средний (Intermediate)']"));
         elementCurLanguage.click();
+
+        WebElement elementCity = wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("input[data-title='Город']+div")));
+        action.moveToElement(elementCity).click().perform();
+        WebElement elementCurCity = driver.findElement(By.cssSelector("button.lk-cv-block__select-option[title='Санкт-Петербург']"));
+        elementCurCity.click();
 
         driver.findElement(By.cssSelector("#id_ready_to_relocate_1+span")).click();
         driver.findElement(By.cssSelector("input[value='remote']+span")).click();
